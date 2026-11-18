@@ -124,7 +124,7 @@ public class MyStack implements StackADT
             throw new NullPointerException( "Cannot search for null" );
         }
 
-        // I count from the top so the closest duplicate wins
+        // Count from my top for duplicates
         for( int i = elements.size() - 1; i >= 0; i-- )
         {
             if( toFind.equals( elements.get( i ) ) )

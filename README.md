@@ -1,11 +1,15 @@
 # OOP3 - 2
 
-We’re building a bracket parser for CPRG 304 using our own array list, doubly linked list, stack and queue
+I completed my array list and stack for CPRG 304 Assignment 2
 
-Built with Java 21, Eclipse and JUnit 4
+- MyArrayList uses a resizing String array
+- MyStack uses MyArrayList
+- My iterators keep an independent copy
+- I passed all 124 supplied array list and stack tests and 12 extra checks with Java 21 and JUnit 4
+- I kept the supplied interfaces, tests and teacher comments unchanged
 
-- We use String values without generics
-- We keep the supplied interfaces, tests and teacher comments unchanged
-- We work on our own branches and test our parts before merging
+The linked list, queue, parser and application are still pending from the other members
+The full project will compile once their starter classes are completed
+This is my Member 1 handoff, and the final Parser.jar is still pending
 
-Still in progress
+In Eclipse, I run MyArrayListTest and MyStackTest with JUnit 4 after the remaining starter classes are completed

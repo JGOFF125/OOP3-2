@@ -99,7 +99,7 @@ public class MyArrayList implements ListADT
             grow();
         }
 
-        // I make room before inserting
+        // Make room for my value
         System.arraycopy( elements, index, elements, index + 1, size - index );
         elements[ index ] = toAdd;
         size++;
@@ -132,7 +132,7 @@ public class MyArrayList implements ListADT
             throw new NullPointerException( "Cannot add a null list" );
         }
 
-        // I copy first so adding my own list still ends
+        // Copy first so my list can add itself
         Iterator iterator = toAdd.iterator();
         boolean changed = false;
         while( iterator.hasNext() )
@@ -170,7 +170,7 @@ public class MyArrayList implements ListADT
         System.arraycopy( elements, index + 1, elements, index, size - index - 1 );
         size--;
 
-        // I clear the old last slot after shifting
+        // Clear my old last slot
         elements[ size ] = null;
         return removed;
     }
