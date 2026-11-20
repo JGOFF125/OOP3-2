@@ -28,9 +28,13 @@ import implementations.MyStack;
  */
 public class Parser {
 	
+	/** Open brackets waiting for their closer, as "line: bracket" entries. */
 	private StackADT stack = new MyStack();
+	/** Openers skipped over by a mismatch, and closers that arrived with an empty stack. */
 	private QueueADT errorQ = new MyQueue();
+	/** Closers whose opener is nowhere in the stack. */
 	private QueueADT extrasQ = new MyQueue();
+	/** Confirmed errors, collected before sorting. */
 	private ListADT errors = new MyArrayList();
 	
 	/*
@@ -42,7 +46,9 @@ public class Parser {
 	/**
 	 * Checks if the character is one of the open brackets
 	 *
-	 * @param c   		  the character to check
+	 * @param c           the character to check
+	 * 
+	 * @return true if c is an opening bracket; false otherwise
 	 */
 	private static boolean isOpenBracket (char c) {
 		return c=='(' || c=='{' || c=='[' || c=='<';
@@ -51,7 +57,9 @@ public class Parser {
 	/**
 	 * Checks if the character is one of the close brackets
 	 *
-	 * @param c   		  the character to check
+	 * @param c           the character to check
+	 * 
+	 * @return true if c is a closing bracket; false otherwise
 	 */
 	private static boolean isCloseBracket (char c) {
 		return c==')' || c=='}' || c==']' || c=='>';
@@ -60,7 +68,9 @@ public class Parser {
 	/**
 	 * Returns the partner of the provided bracket
 	 *
-	 * @param c   		  the original bracket
+	 * @param c           the original bracket
+	 * 
+	 * @return the matching bracket, or '0' if c is not a bracket
 	 */
 	private static char partner(char c) {
 		return switch(c) {
@@ -80,7 +90,9 @@ public class Parser {
 	 * Creates a string containing the bracket and its line number
 	 *
 	 * @param lineNumber  the line's number in the file, starting at 1
-	 * @param c        	  the current bracket
+	 * @param c           the current bracket
+	 * 
+	 * @return the encoded entry, e.g. "4: ("
 	 */
 	private static String encode(int lineNumber, char c) { return lineNumber + ": " + c; }
 
@@ -88,6 +100,8 @@ public class Parser {
 	 * Extracts the line number from the encoded error line
 	 *
 	 * @param errorLine   the string to extract from
+	 * 
+	 * @return the line number stored in the entry
 	 */
 	private static int decodeLineNumber(String errorLine) { return Integer.parseInt( errorLine.substring( 0, errorLine.indexOf( ':' ) ) ); }
 	
@@ -95,13 +109,17 @@ public class Parser {
 	 * Extracts the bracket from the encoded error line
 	 *
 	 * @param errorLine   the string to extract from
+	 * 
+	 * @return the bracket stored in the entry
 	 */
 	private static char decodeBracket(String errorLine) { return errorLine.charAt(errorLine.length()-1); }
 	
 	/**
 	 * Determines if the stack contains a specific bracket
 	 *
-	 * @param c   		  the bracket to search for
+	 * @param c           the bracket to search for
+	 * 
+	 * @return true if the bracket is anywhere in the stack, false otherwise
 	 */
 	private boolean stackHas(char c) {
 		Iterator stackIterator = stack.iterator();
@@ -128,33 +146,37 @@ public class Parser {
 	 * @param code        the text of the line
 	 * @param lineNumber  the line's number in the file, starting at 1
 	 */
-	public void processLine(String code, int lineNumber) throws EmptyQueueException {
+	public void processLine(String code, int lineNumber) {
 		
-		for(int i=0; i< code.length(); i++) {
-			
-			char c = code.charAt(i);
-			
-			if(isOpenBracket(c)) {
-				stack.push(encode(lineNumber, c));
-			} else if (isCloseBracket(c)) {
+		try {
+			for(int i=0; i< code.length(); i++) {
 				
-				char opener = partner(c);
+				char c = code.charAt(i);
 				
-				if(!stack.isEmpty() && opener == decodeBracket(stack.peek())) {
-					stack.pop();
-				} else if (!errorQ.isEmpty() && opener == decodeBracket(errorQ.peek())) {
-					errors.add(errorQ.dequeue());
-				} else if (stack.isEmpty()) {
-					errorQ.enqueue(encode(lineNumber, c));
-				} else if(stackHas(partner(c))) {
-					while(decodeBracket(stack.peek()) != opener) {
-						errorQ.enqueue(stack.pop());
+				if(isOpenBracket(c)) {
+					stack.push(encode(lineNumber, c));
+				} else if (isCloseBracket(c)) {
+					
+					char opener = partner(c);
+					
+					if(!stack.isEmpty() && opener == decodeBracket(stack.peek())) {
+						stack.pop();
+					} else if (!errorQ.isEmpty() && opener == decodeBracket(errorQ.peek())) {
+						errors.add(errorQ.dequeue());
+					} else if (stack.isEmpty()) {
+						errorQ.enqueue(encode(lineNumber, c));
+					} else if(stackHas(partner(c))) {
+						while(decodeBracket(stack.peek()) != opener) {
+							errorQ.enqueue(stack.pop());
+						}
+						stack.pop(); // removed the matched opener
+					} else {
+						extrasQ.enqueue(encode(lineNumber, c));
 					}
-					stack.pop(); // removed the matched opener
-				} else {
-					extrasQ.enqueue(encode(lineNumber, c));
 				}
 			}
+		} catch (EmptyQueueException e) {
+			throw new IllegalStateException( "Parser queue was unexpectedly empty.", e );
 		}
 		
 		
@@ -167,7 +189,7 @@ public class Parser {
 	 * @return one formatted message per error, in line order;
 	 *         an empty array if the file has no errors
 	 */
-	public String[] finalEvaluation() throws NullPointerException, EmptyQueueException {
+	public String[] finalEvaluation() {
 		ParseError[] parsedErrors = null;
 		String[] results = null;
 		
@@ -175,17 +197,21 @@ public class Parser {
 			errorQ.enqueue(stack.pop());
 		}
 		
-		while(!errorQ.isEmpty() || !extrasQ.isEmpty()) {
-			if(errorQ.isEmpty()) {
-				errors.add(extrasQ.dequeue());
-			} else if(extrasQ.isEmpty()) {
-				errors.add(errorQ.dequeue());
-			} else if(partner(decodeBracket(errorQ.peek())) != decodeBracket(extrasQ.peek())) {
-				errors.add(errorQ.dequeue());
-			} else {
-				errors.add(errorQ.dequeue());
-				extrasQ.dequeue();
+		try {
+			while(!errorQ.isEmpty() || !extrasQ.isEmpty()) {
+				if(errorQ.isEmpty()) {
+					errors.add(extrasQ.dequeue());
+				} else if(extrasQ.isEmpty()) {
+					errors.add(errorQ.dequeue());
+				} else if(partner(decodeBracket(errorQ.peek())) != decodeBracket(extrasQ.peek())) {
+					errors.add(errorQ.dequeue());
+				} else {
+					errors.add(errorQ.dequeue());
+					extrasQ.dequeue();
+				}
 			}
+		} catch (EmptyQueueException e) {
+			throw new IllegalStateException( "Parser queue was unexpectedly empty.", e );
 		}
 		
 		parsedErrors = new ParseError[errors.size()];
