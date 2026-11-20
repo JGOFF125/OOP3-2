@@ -84,7 +84,7 @@ public class MyArrayList implements ListADT
      * @throws IndexOutOfBoundsException if I get an invalid index
      */
     @Override
-    public boolean add( int index, String toAdd )
+    public boolean add( int index, String toAdd ) throws NullPointerException, IndexOutOfBoundsException
     {
         if( toAdd == null )
         {
@@ -113,7 +113,7 @@ public class MyArrayList implements ListADT
      * @throws NullPointerException if I get null
      */
     @Override
-    public boolean add( String toAdd )
+    public boolean add( String toAdd ) throws NullPointerException
     {
         return add( size, toAdd );
     }
@@ -125,7 +125,7 @@ public class MyArrayList implements ListADT
      * @throws NullPointerException if I get a null list or element
      */
     @Override
-    public boolean addAll( ListADT toAdd )
+    public boolean addAll( ListADT toAdd ) throws NullPointerException
     {
         if( toAdd == null )
         {
@@ -150,7 +150,7 @@ public class MyArrayList implements ListADT
      * @throws IndexOutOfBoundsException if I get an invalid index
      */
     @Override
-    public String get( int index )
+    public String get( int index ) throws IndexOutOfBoundsException
     {
         checkIndex( index );
         return elements[ index ];
@@ -163,7 +163,7 @@ public class MyArrayList implements ListADT
      * @throws IndexOutOfBoundsException if I get an invalid index
      */
     @Override
-    public String remove( int index )
+    public String remove( int index ) throws IndexOutOfBoundsException
     {
         checkIndex( index );
         String removed = elements[ index ];
@@ -182,7 +182,7 @@ public class MyArrayList implements ListADT
      * @throws NullPointerException if I get null
      */
     @Override
-    public String remove( String toRemove )
+    public String remove( String toRemove ) throws NullPointerException
     {
         int index = indexOf( toRemove );
         return index == -1 ? null : remove( index );
@@ -197,7 +197,7 @@ public class MyArrayList implements ListADT
      * @throws IndexOutOfBoundsException if I get an invalid index
      */
     @Override
-    public String set( int index, String toChange )
+    public String set( int index, String toChange ) throws NullPointerException, IndexOutOfBoundsException
     {
         if( toChange == null )
         {
@@ -226,7 +226,7 @@ public class MyArrayList implements ListADT
      * @throws NullPointerException if I get null
      */
     @Override
-    public boolean contains( String toFind )
+    public boolean contains( String toFind ) throws NullPointerException
     {
         return indexOf( toFind ) != -1;
     }
@@ -238,7 +238,7 @@ public class MyArrayList implements ListADT
      * @throws NullPointerException if I get null
      */
     @Override
-    public int indexOf( String toFind )
+    public int indexOf( String toFind ) throws NullPointerException
     {
         if( toFind == null )
         {
@@ -261,7 +261,7 @@ public class MyArrayList implements ListADT
      * @throws NullPointerException if I get a null array
      */
     @Override
-    public String[] toArray( String[] toHold )
+    public String[] toArray( String[] toHold ) throws NullPointerException
     {
         if( toHold == null )
         {
@@ -345,7 +345,7 @@ public class MyArrayList implements ListADT
          * @throws NoSuchElementException if I reach the end
          */
         @Override
-        public String next()
+        public String next() throws NoSuchElementException
         {
             if( !hasNext() )
             {
