@@ -10,6 +10,22 @@ import implementations.MyArrayList;
 import implementations.MyQueue;
 import implementations.MyStack;
 
+/**
+ * Checks a text file for correctly matched brackets: (), {}, [] and &lt;&gt;.
+ * <p>
+ * Lines are fed in one at a time with {@link #processLine(String, int)}.
+ * After the last line, {@link #finalEvaluation()} returns every error found,
+ * sorted by line number. Based on Kitty's parser algorithm, using
+ * {@link MyStack} for open brackets and two {@link MyQueue}s for errors.
+ * </p>
+ * <p>
+ * Each stack/queue entry is a String of the form {@code "lineNumber: bracket"},
+ * because the ADTs only store Strings.
+ * </p>
+ * <p>
+ * Use a new Parser for each file.
+ * </p>
+ */
 public class Parser {
 	
 	private StackADT stack = new MyStack();
@@ -23,17 +39,29 @@ public class Parser {
 	 *  ==========================
 	 */
 	
-	// checks if character is an open bracket
+	/**
+	 * Checks if the character is one of the open brackets
+	 *
+	 * @param c   		  the character to check
+	 */
 	private static boolean isOpenBracket (char c) {
 		return c=='(' || c=='{' || c=='[' || c=='<';
 	}
 
-	// checks if character is a close bracket
+	/**
+	 * Checks if the character is one of the close brackets
+	 *
+	 * @param c   		  the character to check
+	 */
 	private static boolean isCloseBracket (char c) {
 		return c==')' || c=='}' || c==']' || c=='>';
 	}
 	
-	// gets the partner of the provided bracket
+	/**
+	 * Returns the partner of the provided bracket
+	 *
+	 * @param c   		  the original bracket
+	 */
 	private static char partner(char c) {
 		return switch(c) {
 			case '(' -> ')';
@@ -48,16 +76,33 @@ public class Parser {
 		};
 	}
 	
-	// adds a line number to the error code
+	/**
+	 * Creates a string containing the bracket and its line number
+	 *
+	 * @param lineNumber  the line's number in the file, starting at 1
+	 * @param c        	  the current bracket
+	 */
 	private static String encode(int lineNumber, char c) { return lineNumber + ": " + c; }
 
-	// get line number from the error line
+	/**
+	 * Extracts the line number from the encoded error line
+	 *
+	 * @param errorLine   the string to extract from
+	 */
 	private static int decodeLineNumber(String errorLine) { return Integer.parseInt( errorLine.substring( 0, errorLine.indexOf( ':' ) ) ); }
 	
-	// get bracket from the error line
+	/**
+	 * Extracts the bracket from the encoded error line
+	 *
+	 * @param errorLine   the string to extract from
+	 */
 	private static char decodeBracket(String errorLine) { return errorLine.charAt(errorLine.length()-1); }
 	
-	// check if stack contains an opening bracket
+	/**
+	 * Determines if the stack contains a specific bracket
+	 *
+	 * @param c   		  the bracket to search for
+	 */
 	private boolean stackHas(char c) {
 		Iterator stackIterator = stack.iterator();
 		
@@ -76,6 +121,13 @@ public class Parser {
 	 *  ==========================
 	 */
 	
+	/**
+	 * Checks every bracket in one line of the file. Everything that is not
+	 * a bracket is ignored.
+	 *
+	 * @param code        the text of the line
+	 * @param lineNumber  the line's number in the file, starting at 1
+	 */
 	public void processLine(String code, int lineNumber) throws EmptyQueueException {
 		
 		for(int i=0; i< code.length(); i++) {
@@ -108,6 +160,13 @@ public class Parser {
 		
 	}
 	
+	/**
+	 * Finishes parsing after the last line: any brackets still open are
+	 * treated as errors, and all errors are sorted by line number.
+	 *
+	 * @return one formatted message per error, in line order;
+	 *         an empty array if the file has no errors
+	 */
 	public String[] finalEvaluation() throws NullPointerException, EmptyQueueException {
 		ParseError[] parsedErrors = null;
 		String[] results = null;
