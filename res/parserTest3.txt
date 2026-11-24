@@ -1,0 +1,6 @@
+void run() {
+    if (ready) {
+        start();
+    x = (a + b;
+    list[0] = 1;
+}

@@ -1,0 +1,12 @@
+parserTest1.txt
+File: parserTest1.txt has no errors.
+
+parserTest2.txt
+Errors in file parserTest2.txt:
+Line 1: Syntax error on "[".
+Line 3: Syntax error on ")".
+
+parserTest3.txt
+Errors in file parserTest3.txt:
+Line 1: Syntax error on "{".
+Line 4: Syntax error on "(".
