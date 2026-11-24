@@ -149,27 +149,57 @@ public class Parser {
 	public void processLine(String code, int lineNumber) {
 		
 		try {
+			// For each character c in the line
 			for(int i=0; i< code.length(); i++) {
+				
 				
 				char c = code.charAt(i);
 				
+				// If c is an opening bracket
 				if(isOpenBracket(c)) {
+					
+					// push "line number: c" into stack
 					stack.push(encode(lineNumber, c));
+					
+				// If c is a closing bracket	
 				} else if (isCloseBracket(c)) {
 					
+					// get the partner closing bracket of current bracket type
 					char opener = partner(c);
 					
+					// If stack is not empty and current c and top of stack are partners
 					if(!stack.isEmpty() && opener == decodeBracket(stack.peek())) {
+						
+						// pop stack and disregard pair (no errors)
 						stack.pop();
+						
+					// If error queue is not empty and c and head of errorQ are partners
 					} else if (!errorQ.isEmpty() && opener == decodeBracket(errorQ.peek())) {
+						
+						// get the head of errorQ and report it as an error
+						// it wouldn't be in errorQ if it wasn't an error
 						errors.add(errorQ.dequeue());
+						
+					// If stack is empty
 					} else if (stack.isEmpty()) {
+						
+						// log the current character (a closing bracket) to the errorQ
+						// meaning closing bracket doesn't have an opening
 						errorQ.enqueue(encode(lineNumber, c));
+						
+					// If current closing bracket has an opening bracket in the stack
 					} else if(stackHas(partner(c))) {
+						
+						// Pop each character in stack into errorQ until we find the partner
+						// All openers we pop are errors because they aren't closed
 						while(decodeBracket(stack.peek()) != opener) {
 							errorQ.enqueue(stack.pop());
 						}
-						stack.pop(); // removed the matched opener
+						
+						// Remove the matched opener
+						stack.pop();
+						
+					// Else, add current closing character to queue of extra characters
 					} else {
 						extrasQ.enqueue(encode(lineNumber, c));
 					}
@@ -193,18 +223,29 @@ public class Parser {
 		ParseError[] parsedErrors = null;
 		String[] results = null;
 		
+		// While stack is not empty, mark all remaining characters as errors
 		while(!stack.isEmpty()) {
 			errorQ.enqueue(stack.pop());
 		}
 		
 		try {
+			
+			// While either errorQ or extrasQ is not empty
 			while(!errorQ.isEmpty() || !extrasQ.isEmpty()) {
+				
+				// If errorQ is empty, mark remaining extra characters as errors
 				if(errorQ.isEmpty()) {
 					errors.add(extrasQ.dequeue());
+					
+				// If extrasQ is empty, mark remaining error queue characters as errors
 				} else if(extrasQ.isEmpty()) {
 					errors.add(errorQ.dequeue());
+					
+				// If current heads of errorQ and extrasQ don't match, dequeue head of  errorQ as an error
 				} else if(partner(decodeBracket(errorQ.peek())) != decodeBracket(extrasQ.peek())) {
 					errors.add(errorQ.dequeue());
+					
+				// Else, dequeue from both and log only one of the pair as an error
 				} else {
 					errors.add(errorQ.dequeue());
 					extrasQ.dequeue();
