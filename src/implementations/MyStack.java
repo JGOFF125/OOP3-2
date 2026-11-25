@@ -40,7 +40,7 @@ public class MyStack implements StackADT
      * @throws NullPointerException if I get null
      */
     @Override
-    public void push( String toAdd )
+    public void push( String toAdd ) throws NullPointerException
     {
         elements.add( toAdd );
     }
@@ -51,7 +51,7 @@ public class MyStack implements StackADT
      * @throws EmptyStackException if I have no elements
      */
     @Override
-    public String pop()
+    public String pop() throws EmptyStackException
     {
         checkEmpty();
         return elements.remove( elements.size() - 1 );
@@ -63,7 +63,7 @@ public class MyStack implements StackADT
      * @throws EmptyStackException if I have no elements
      */
     @Override
-    public String peek()
+    public String peek() throws EmptyStackException
     {
         checkEmpty();
         return elements.get( elements.size() - 1 );
@@ -93,7 +93,7 @@ public class MyStack implements StackADT
      * @throws NullPointerException if I get a null array
      */
     @Override
-    public String[] toArray( String[] holder )
+    public String[] toArray( String[] holder ) throws NullPointerException
     {
         return elements.toArray( holder );
     }
@@ -105,7 +105,7 @@ public class MyStack implements StackADT
      * @throws NullPointerException if I get null
      */
     @Override
-    public boolean contains( String toFind )
+    public boolean contains( String toFind ) throws NullPointerException
     {
         return elements.contains( toFind );
     }
