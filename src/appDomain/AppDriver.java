@@ -4,6 +4,7 @@ package appDomain;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import parser.Parser;
 
 /**
  * This class reads text files and displays their contents.
@@ -24,6 +25,7 @@ public class AppDriver
         // Go through each file provided
         for (String fileName : args)
         {
+        	Parser parser = new Parser();
             int lineNumber = 0;
 
             // Open the file and read it one line at a time
@@ -35,13 +37,33 @@ public class AppDriver
                 {
                     lineNumber++;
 
-                    // Display the line number and its contents
-                    System.out.println(lineNumber + ": " + line);
+                    // Send the line and its line number to the parser
+                    parser.processLine(line, lineNumber);
                 }
 
-                // Display a message when the file is finished
+             // Check for any remaining bracket errors
+                String[] errors = parser.finalEvaluation();
+
+                // Display the results for this file
+                System.out.println(fileName);
                 System.out.println();
-                System.out.println("Finished reading: " + fileName);
+
+                if (errors.length == 0)
+                {
+                    System.out.println("File: " + fileName + " has no errors.");
+                }
+                else
+                {
+                    System.out.println("Errors in file " + fileName + ":");
+                    System.out.println();
+
+                    // Print each error found
+                    for (String error : errors)
+                    {
+                        System.out.println(error);
+                    }
+                }
+
                 System.out.println();
             }
             catch (IOException e)
