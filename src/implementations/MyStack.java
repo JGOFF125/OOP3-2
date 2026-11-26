@@ -28,16 +28,16 @@ public class MyStack implements StackADT
 {
     private final MyArrayList elements;
 
-    /** I start with an empty array list for storage */
+    /** Start with an empty array list for storage */
     public MyStack()
     {
         elements = new MyArrayList();
     }
 
     /**
-     * I push a value onto the top
-     * @param toAdd the non-null value I push
-     * @throws NullPointerException if I get null
+     * Push a value onto the top
+     * @param toAdd the non-null value to push
+     * @throws NullPointerException if null is passed
      */
     @Override
     public void push( String toAdd ) throws NullPointerException
@@ -46,9 +46,9 @@ public class MyStack implements StackADT
     }
 
     /**
-     * I remove the top value
-     * @return the value I popped
-     * @throws EmptyStackException if I have no elements
+     * Remove the top value
+     * @return the popped value
+     * @throws EmptyStackException if empty
      */
     @Override
     public String pop() throws EmptyStackException
@@ -58,9 +58,9 @@ public class MyStack implements StackADT
     }
 
     /**
-     * I read the top without removing it
-     * @return the top value I read
-     * @throws EmptyStackException if I have no elements
+     * Read the top without removing it
+     * @return the top value read
+     * @throws EmptyStackException if empty
      */
     @Override
     public String peek() throws EmptyStackException
@@ -69,7 +69,7 @@ public class MyStack implements StackADT
         return elements.get( elements.size() - 1 );
     }
 
-    /** I clear the stack through my array list */
+    /** Clear the stack through the array list */
     @Override
     public void clear()
     {
@@ -77,8 +77,8 @@ public class MyStack implements StackADT
     }
 
     /**
-     * I check whether the stack is empty
-     * @return true if I have no elements
+     * Check whether the stack is empty
+     * @return true if empty
      */
     @Override
     public boolean isEmpty()
@@ -87,10 +87,10 @@ public class MyStack implements StackADT
     }
 
     /**
-     * I copy the stack from bottom to top
-     * @param holder the array I reuse if it has enough space
-     * @return the supplied array or a larger copy I create
-     * @throws NullPointerException if I get a null array
+     * Copy the stack from bottom to top
+     * @param holder the array to reuse if it has enough space
+     * @return the supplied array or a larger copy
+     * @throws NullPointerException if the array is null
      */
     @Override
     public String[] toArray( String[] holder ) throws NullPointerException
@@ -99,10 +99,10 @@ public class MyStack implements StackADT
     }
 
     /**
-     * I check whether the stack contains a value
-     * @param toFind the non-null value I look for
-     * @return true if I find a match
-     * @throws NullPointerException if I get null
+     * Check whether the stack contains a value
+     * @param toFind the non-null value to find
+     * @return true if a match exists
+     * @throws NullPointerException if null is passed
      */
     @Override
     public boolean contains( String toFind ) throws NullPointerException
@@ -111,10 +111,10 @@ public class MyStack implements StackADT
     }
 
     /**
-     * I search from the top for the nearest match
-     * @param toFind the non-null value I look for
-     * @return the one-based position I find, or -1 if absent
-     * @throws NullPointerException if I get null
+     * Search from the top for the nearest match
+     * @param toFind the non-null value to find
+     * @return the one-based position, or -1 if absent
+     * @throws NullPointerException if null is passed
      */
     @Override
     public int search( String toFind )
@@ -124,7 +124,7 @@ public class MyStack implements StackADT
             throw new NullPointerException( "Cannot search for null" );
         }
 
-        // Count from my top for duplicates
+        // Count from the top for duplicates
         for( int i = elements.size() - 1; i >= 0; i-- )
         {
             if( toFind.equals( elements.get( i ) ) )
@@ -136,8 +136,8 @@ public class MyStack implements StackADT
     }
 
     /**
-     * I create an independent iterator from bottom to top
-     * @return the iterator I get from my array list
+     * Create an independent iterator from bottom to top
+     * @return the array list iterator
      */
     @Override
     public Iterator iterator()
@@ -146,9 +146,9 @@ public class MyStack implements StackADT
     }
 
     /**
-     * I compare both stacks in bottom-to-top order
-     * @param that the stack I compare against
-     * @return true if I find the same values in the same order
+     * Compare both stacks in bottom-to-top order
+     * @param that the stack to compare against
+     * @return true if both stacks contain the same values in the same order
      */
     @Override
     public boolean equals( StackADT that )
@@ -169,8 +169,8 @@ public class MyStack implements StackADT
     }
 
     /**
-     * I count the stack elements
-     * @return how many elements I have
+     * Count the stack elements
+     * @return the number of elements
      */
     @Override
     public int size()
@@ -179,8 +179,8 @@ public class MyStack implements StackADT
     }
 
     /**
-     * I guard the operations that need a top element
-     * @throws EmptyStackException if I have no elements
+     * Guard the operations that need a top element
+     * @throws EmptyStackException if empty
      */
     private void checkEmpty()
     {

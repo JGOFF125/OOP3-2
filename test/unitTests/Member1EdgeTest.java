@@ -8,10 +8,10 @@ import implementations.MyArrayList;
 import implementations.MyStack;
 import utilities.Iterator;
 
-/** I check resizing and iterator cases beyond the supplied tests */
+/** Check resizing and iterator cases beyond the supplied tests */
 public class Member1EdgeTest
 {
-    /** I keep every value through repeated resizing */
+    /** Keep every value through repeated resizing */
     @Test
     public void listKeepsValuesAfterGrowing()
     {
@@ -27,7 +27,7 @@ public class Member1EdgeTest
         }
     }
 
-    /** I make room at the front when the array is full */
+    /** Make room at the front when the array is full */
     @Test
     public void insertIntoFullArrayKeepsOrder()
     {
@@ -40,7 +40,7 @@ public class Member1EdgeTest
         assertArrayEquals( new String[] { "A", "C" }, list.toArray( new String[ 0 ] ) );
     }
 
-    /** I add my own list once without looping forever */
+    /** Add the same list once without looping forever */
     @Test( timeout = 2000 )
     public void addAllWithSameListAppendsOneCopy()
     {
@@ -51,7 +51,7 @@ public class Member1EdgeTest
         assertArrayEquals( new String[] { "A", "B", "A", "B" }, list.toArray( new String[ 0 ] ) );
     }
 
-    /** I report no change when the source is empty */
+    /** Report no change when the source is empty */
     @Test
     public void addAllEmptyListReturnsFalse()
     {
@@ -61,7 +61,7 @@ public class Member1EdgeTest
         assertEquals( 1, list.size() );
     }
 
-    /** I keep the original iterator values after changing the list */
+    /** Keep the original iterator values after changing the list */
     @Test
     public void listIteratorKeepsItsSnapshot()
     {
@@ -79,7 +79,7 @@ public class Member1EdgeTest
         assertFalse( iterator.hasNext() );
     }
 
-    /** I keep the stack iterator after popping and clearing */
+    /** Keep the stack iterator after popping and clearing */
     @Test
     public void stackIteratorKeepsItsSnapshot()
     {
@@ -95,14 +95,14 @@ public class Member1EdgeTest
         assertFalse( iterator.hasNext() );
     }
 
-    /** I reject reads past an empty iterator */
+    /** Reject reads past an empty iterator */
     @Test( expected = NoSuchElementException.class )
     public void emptyIteratorThrowsAtEnd()
     {
         new MyArrayList().iterator().next();
     }
 
-    /** I reject reads after the final stack iterator value */
+    /** Reject reads after the final stack iterator value */
     @Test( expected = NoSuchElementException.class )
     public void exhaustedStackIteratorThrowsAtEnd()
     {
@@ -113,7 +113,7 @@ public class Member1EdgeTest
         iterator.next();
     }
 
-    /** I keep returned arrays separate from list storage */
+    /** Keep returned arrays separate from list storage */
     @Test
     public void arrayCopiesDoNotExposeStorage()
     {
@@ -129,7 +129,7 @@ public class Member1EdgeTest
         assertEquals( "A", list.get( 0 ) );
     }
 
-    /** I check LIFO order after growing the stack */
+    /** Check LIFO order after growing the stack */
     @Test
     public void largeStackPopsInReverseOrder()
     {
@@ -145,7 +145,7 @@ public class Member1EdgeTest
         assertTrue( stack.isEmpty() );
     }
 
-    /** I compare String contents and leave both stacks unchanged */
+    /** Compare String contents and leave both stacks unchanged */
     @Test
     public void equalityUsesValuesWithoutChangingStacks()
     {
@@ -161,7 +161,7 @@ public class Member1EdgeTest
         assertEquals( "same", second.peek() );
     }
 
-    /** I keep growing even when the chosen rate rounds below one slot */
+    /** Keep growing even when the chosen rate rounds below one slot */
     @Test
     public void tinyGrowthStillAddsSpace()
     {

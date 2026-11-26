@@ -31,18 +31,18 @@ public class MyArrayList implements ListADT
     private int size;
     private final double growthRate;
 
-    /** I start with 10 spaces and 25 percent growth */
+    /** Start with 10 spaces and 25 percent growth */
     public MyArrayList()
     {
         this( 10, 0.25 );
     }
 
     /**
-     * I choose the starting space and growth rate
+     * Choose the starting space and growth rate
      *
-     * @param initialCapacity how many spaces I start with
-     * @param growthRate the positive decimal rate I grow by
-     * @throws IllegalArgumentException if I get invalid settings
+     * @param initialCapacity the starting capacity
+     * @param growthRate the positive decimal growth rate
+     * @throws IllegalArgumentException if the settings are invalid
      */
     public MyArrayList( int initialCapacity, double growthRate )
     {
@@ -55,8 +55,8 @@ public class MyArrayList implements ListADT
     }
 
     /**
-     * I count the stored elements
-     * @return how many elements I have
+     * Count the stored elements
+     * @return the number of elements
      */
     @Override
     public int size()
@@ -64,7 +64,7 @@ public class MyArrayList implements ListADT
         return size;
     }
 
-    /** I release the stored elements and reset the count */
+    /** Release the stored elements and reset the count */
     @Override
     public void clear()
     {
@@ -76,12 +76,12 @@ public class MyArrayList implements ListADT
     }
 
     /**
-     * I insert an element at the chosen index
-     * @param index where I insert it, from zero through size
-     * @param toAdd the non-null value I add
-     * @return true when I add it
-     * @throws NullPointerException if I get null
-     * @throws IndexOutOfBoundsException if I get an invalid index
+     * Insert an element at the chosen index
+     * @param index where to insert it, from zero through size
+     * @param toAdd the non-null value to add
+     * @return true when added
+     * @throws NullPointerException if null is passed
+     * @throws IndexOutOfBoundsException if the index is invalid
      */
     @Override
     public boolean add( int index, String toAdd ) throws NullPointerException, IndexOutOfBoundsException
@@ -99,7 +99,7 @@ public class MyArrayList implements ListADT
             grow();
         }
 
-        // Make room for my value
+        // Make room for the value
         System.arraycopy( elements, index, elements, index + 1, size - index );
         elements[ index ] = toAdd;
         size++;
@@ -107,10 +107,10 @@ public class MyArrayList implements ListADT
     }
 
     /**
-     * I add an element at the end
-     * @param toAdd the non-null value I add
-     * @return true when I add it
-     * @throws NullPointerException if I get null
+     * Add an element at the end
+     * @param toAdd the non-null value to add
+     * @return true when added
+     * @throws NullPointerException if null is passed
      */
     @Override
     public boolean add( String toAdd ) throws NullPointerException
@@ -119,10 +119,10 @@ public class MyArrayList implements ListADT
     }
 
     /**
-     * I append the other list in iterator order
-     * @param toAdd the list I copy from
-     * @return true if I add any elements
-     * @throws NullPointerException if I get a null list or element
+     * Append the other list in iterator order
+     * @param toAdd the list to copy from
+     * @return true if any elements are added
+     * @throws NullPointerException if the list or an element is null
      */
     @Override
     public boolean addAll( ListADT toAdd ) throws NullPointerException
@@ -132,7 +132,7 @@ public class MyArrayList implements ListADT
             throw new NullPointerException( "Cannot add a null list" );
         }
 
-        // Copy first so my list can add itself
+        // Copy first so the list can add itself
         Iterator iterator = toAdd.iterator();
         boolean changed = false;
         while( iterator.hasNext() )
@@ -144,10 +144,10 @@ public class MyArrayList implements ListADT
     }
 
     /**
-     * I read an element without removing it
-     * @param index the existing position I read
-     * @return the value I find
-     * @throws IndexOutOfBoundsException if I get an invalid index
+     * Read an element without removing it
+     * @param index the existing position to read
+     * @return the value at the index
+     * @throws IndexOutOfBoundsException if the index is invalid
      */
     @Override
     public String get( int index ) throws IndexOutOfBoundsException
@@ -157,10 +157,10 @@ public class MyArrayList implements ListADT
     }
 
     /**
-     * I remove the element at an index
-     * @param index the existing position I remove
-     * @return the value I removed
-     * @throws IndexOutOfBoundsException if I get an invalid index
+     * Remove the element at an index
+     * @param index the existing position to remove
+     * @return the removed value
+     * @throws IndexOutOfBoundsException if the index is invalid
      */
     @Override
     public String remove( int index ) throws IndexOutOfBoundsException
@@ -170,16 +170,16 @@ public class MyArrayList implements ListADT
         System.arraycopy( elements, index + 1, elements, index, size - index - 1 );
         size--;
 
-        // Clear my old last slot
+        // Clear the old last slot
         elements[ size ] = null;
         return removed;
     }
 
     /**
-     * I remove the first matching value
-     * @param toRemove the non-null value I look for
-     * @return the stored value I removed, or null if I find no match
-     * @throws NullPointerException if I get null
+     * Remove the first matching value
+     * @param toRemove the non-null value to find
+     * @return the removed value, or null if no match is found
+     * @throws NullPointerException if null is passed
      */
     @Override
     public String remove( String toRemove ) throws NullPointerException
@@ -189,12 +189,12 @@ public class MyArrayList implements ListADT
     }
 
     /**
-     * I replace an element without changing the size
-     * @param index the existing position I replace
-     * @param toChange the non-null value I store
-     * @return the previous value I replaced
-     * @throws NullPointerException if I get null
-     * @throws IndexOutOfBoundsException if I get an invalid index
+     * Replace an element without changing the size
+     * @param index the existing position to replace
+     * @param toChange the non-null value to store
+     * @return the previous value
+     * @throws NullPointerException if null is passed
+     * @throws IndexOutOfBoundsException if the index is invalid
      */
     @Override
     public String set( int index, String toChange ) throws NullPointerException, IndexOutOfBoundsException
@@ -210,8 +210,8 @@ public class MyArrayList implements ListADT
     }
 
     /**
-     * I check whether the list is empty
-     * @return true if I have no elements
+     * Check whether the list is empty
+     * @return true if empty
      */
     @Override
     public boolean isEmpty()
@@ -220,10 +220,10 @@ public class MyArrayList implements ListADT
     }
 
     /**
-     * I check whether a value is present
-     * @param toFind the non-null value I look for
-     * @return true if I find a match
-     * @throws NullPointerException if I get null
+     * Check whether a value is present
+     * @param toFind the non-null value to find
+     * @return true if a match exists
+     * @throws NullPointerException if null is passed
      */
     @Override
     public boolean contains( String toFind ) throws NullPointerException
@@ -232,10 +232,10 @@ public class MyArrayList implements ListADT
     }
 
     /**
-     * I find the first matching index
-     * @param toFind the non-null value I look for
-     * @return the zero-based index I find, or -1 if absent
-     * @throws NullPointerException if I get null
+     * Find the first matching index
+     * @param toFind the non-null value to find
+     * @return the zero-based index, or -1 if absent
+     * @throws NullPointerException if null is passed
      */
     @Override
     public int indexOf( String toFind ) throws NullPointerException
@@ -255,10 +255,10 @@ public class MyArrayList implements ListADT
     }
 
     /**
-     * I copy the elements into an array in list order
-     * @param toHold the array I reuse if it has enough space
-     * @return the supplied array or a larger copy I create
-     * @throws NullPointerException if I get a null array
+     * Copy the elements into an array in list order
+     * @param toHold the array to reuse if it has enough space
+     * @return the supplied array or a larger copy
+     * @throws NullPointerException if the array is null
      */
     @Override
     public String[] toArray( String[] toHold ) throws NullPointerException
@@ -280,8 +280,8 @@ public class MyArrayList implements ListADT
     }
 
     /**
-     * I create an independent iterator over the current elements
-     * @return the iterator I can traverse from first to last
+     * Create an independent iterator over the current elements
+     * @return the iterator to traverse from first to last
      */
     @Override
     public Iterator iterator()
@@ -289,7 +289,7 @@ public class MyArrayList implements ListADT
         return new ArrayListIterator( elements, size );
     }
 
-    /** I grow the array by the chosen rate, with at least one extra slot */
+    /** Grow the array by the chosen rate, with at least one extra slot */
     private void grow()
     {
         long extra = Math.max( 1L, (long) Math.ceil( elements.length * growthRate ) );
@@ -301,9 +301,9 @@ public class MyArrayList implements ListADT
     }
 
     /**
-     * I check that an element already exists at the index
-     * @param index the position I check
-     * @throws IndexOutOfBoundsException if I get an invalid index
+     * Check that an element already exists at the index
+     * @param index the position to check
+     * @throws IndexOutOfBoundsException if the index is invalid
      */
     private void checkIndex( int index )
     {
@@ -313,16 +313,16 @@ public class MyArrayList implements ListADT
         }
     }
 
-    /** I keep my iterator's copy separate from later list changes */
+    /** Keep the iterator's copy separate from later list changes */
     private static class ArrayListIterator implements Iterator
     {
         private final String[] snapshot;
         private int position;
 
         /**
-         * I save the current values in a private array
-         * @param source the array I copy
-         * @param size how many elements I copy
+         * Save the current values in a private array
+         * @param source the array to copy
+         * @param size number of elements to copy
          */
         private ArrayListIterator( String[] source, int size )
         {
@@ -330,8 +330,8 @@ public class MyArrayList implements ListADT
         }
 
         /**
-         * I check my copy for another element
-         * @return true if I have another value
+         * Check the copy for another element
+         * @return true if another value remains
          */
         @Override
         public boolean hasNext()
@@ -340,9 +340,9 @@ public class MyArrayList implements ListADT
         }
 
         /**
-         * I read the next value from my copy
-         * @return the next value I read
-         * @throws NoSuchElementException if I reach the end
+         * Read the next value from the copy
+         * @return the next value
+         * @throws NoSuchElementException if no elements remain
          */
         @Override
         public String next() throws NoSuchElementException

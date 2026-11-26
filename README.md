@@ -1,15 +1,52 @@
-# OOP3 - 2
+# OOP3 Assignment 2
 
-I completed my array list and stack for CPRG 304 Assignment 2
+Bracket checker built with custom array list, linked list, stack and queue implementations
 
-- MyArrayList uses a resizing String array
-- MyStack uses MyArrayList
-- My iterators keep an independent copy
-- I passed all 124 supplied array list and stack tests and 12 extra checks with Java 21 and JUnit 4
-- I kept the supplied interfaces, tests and teacher comments unchanged
+## Requirements
 
-The linked list, queue, parser and application are still pending from the other members
-The full project will compile once their starter classes are completed
-This is my Member 1 handoff, and the final Parser.jar is still pending
+- Java 21
+- Eclipse
+- JUnit 4
 
-In Eclipse, I run MyArrayListTest and MyStackTest with JUnit 4 after the remaining starter classes are completed
+## Run in Eclipse
+
+1. Import the project using File > Import > General > Existing Projects into Workspace
+2. Select JavaSE-21 as the project JRE and keep JUnit 4 on the build path
+3. Open Run Configurations > Java Application and select appDomain.AppDriver
+4. Set the working directory to the project folder
+5. Enter a file path under Program arguments, such as res/parserTest1.txt
+6. Run and check the console
+
+Put quotation marks around paths containing spaces
+
+## Run the JAR
+
+```text
+java -jar Parser.jar res/parserTest1.txt
+java -jar Parser.jar res/parserTest2.txt res/parserTest3.txt
+```
+
+Keep the res folder beside the JAR for these relative paths, or supply absolute file paths
+
+## Tests
+
+Run the unitTests package as a JUnit test in Eclipse
+
+- 251 supplied data structure tests
+- 12 parser tests
+- 12 additional array list and stack tests
+
+## Contributions
+
+- Joaquin: MyArrayList and MyStack
+- Sebastian: MyDLLNode, MyDLL and MyQueue
+- Jose: Parser, ParseError and parser tests
+- Adeeb: AppDriver and command-line file processing
+
+## Parser behavior
+
+Checks (), {}, [] and <> and ignores other characters
+Angle brackets are checked even when used as comparison operators in the C samples
+Errors include original line numbers and are sorted by line
+Sample inputs and expected results are in res
+

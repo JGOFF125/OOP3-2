@@ -7,12 +7,21 @@ import java.io.IOException;
 import parser.Parser;
 
 /**
- * This class reads text files and displays their contents.
+ * Read files line by line and print their bracket errors
  *
  * @author Adeeb Farzi
  */
 public class AppDriver
 {
+    /** Keep this class for the command line */
+    private AppDriver()
+    {
+    }
+
+    /**
+     * Check each file and print its results
+     * @param args the file paths to check, in the given order
+     */
     public static void main(String[] args)
     {
         // Check if a filename was provided

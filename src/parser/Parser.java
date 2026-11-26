@@ -27,6 +27,11 @@ import implementations.MyStack;
  * </p>
  */
 public class Parser {
+
+    /** Start a fresh check for one file */
+    public Parser()
+    {
+    }
 	
 	/** Open brackets waiting for their closer, as "line: bracket" entries. */
 	private StackADT stack = new MyStack();
